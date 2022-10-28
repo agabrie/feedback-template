@@ -6,15 +6,21 @@ const db_name = isProduction ? process.env.DB_NAME:process.env.DB_DEV_NAME;
 const db_url = isProduction ? process.env.DB_URL:process.env.DB_DEV_URL;;
 const db_user = process.env.DB_USER;
 const db_password = process.env.DB_PASSWORD;
-
-var connectionString = `mongodb://${db_url}:${db_port}/feedback`;
-if(process.env.NODE_ENV === 'production'){
-    connectionString = `mongodb+srv://${db_user}:${db_password}@${db_name}/?retryWrites=true&w=majority`
+var connectionString;
+if(isProduction){
+    connectionString = `mongodb+srv://${encodeURIComponent(db_user)}:${encodeURIComponent(db_password)}@${encodeURIComponent(db_name)}/?retryWrites=true&w=majority`
+}else{
+    connectionString = `mongodb://${db_url}:${db_port}/feedback`;
 }
 
 mongoose.connect(connectionString,{
     useNewUrlParser:true,
     useUnifiedTopology:true
-});
+})
+.then(connectionData=>{
+    let connection = connectionData.connections[0];
+    
+    console.log(`Connection [${connection._readyState}] to db[${connection.name}] on port[${connection.port}]`)
+})
 
 module.exports = mongoose.connection;
