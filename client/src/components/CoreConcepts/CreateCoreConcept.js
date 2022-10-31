@@ -7,7 +7,7 @@ function CreateCoreConcept({handleCreateConcept}){
         event.preventDefault();
         console.log(formData)
 
-        axios.post('http://localhost:3001/api/core-concepts',{concept:formData.title,description:formData.description})
+        axios.post(`/api/core-concepts`,{concept:formData.title,description:formData.description})
         .then((res)=>{
             console.log(res)
             handleCreateConcept(res);

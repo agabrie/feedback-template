@@ -8,7 +8,7 @@ function ViewCoreConcepts({refreshCounter}){
         getAllCoreConcepts();
     },[refreshCounter])
     function getAllCoreConcepts(){
-        axios.get('http://localhost:3001/api/core-concepts')
+        axios.get(`/api/core-concepts`)
         .then((data)=>{
             setConcepts(data.data)
         })
@@ -21,7 +21,7 @@ function ViewCoreConcepts({refreshCounter}){
         let id = event.target.value
         // let filter = concepts.filter((el)=>el._id != event.target.value)
         // console.log(filter);
-        axios.delete(`http://localhost:3001/api/core-concepts/${id}`)
+        axios.delete(`/api/core-concepts/${id}`)
         .then((data)=>{
             getAllCoreConcepts();
         })
